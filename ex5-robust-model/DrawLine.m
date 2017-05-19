@@ -1,4 +1,4 @@
-function h=DrawLine(Line)
+function h=DrawLine(Line,col)
 l=Line;
 
 hold on
@@ -26,6 +26,5 @@ end
 if(ct(1)>a(1) & ct(1)<a(2))
     P=[P ct];
 end
-
-h=line(P(1,:),P(2,:));
+h=line(P(1,:),P(2,:),'Color',col);
 hold off

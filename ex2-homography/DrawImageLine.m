@@ -7,10 +7,10 @@ lRight=[1 0 -Cols];
 lUp=[0 1 0];
 lDown=[0 1 -Rows];
 
-xLeft=cross(l,lLeft)';
-xRight=cross(l,lRight)';
-xUp=cross(l,lUp)';
-xDown=cross(l,lDown)';
+xLeft=cross(l,lLeft)'
+xRight=cross(l,lRight)'
+xUp=cross(l,lUp)'
+xDown=cross(l,lDown)'
 
 P=[];
 if(sign(xLeft(2))*sign(xLeft(3))>0 && abs(xLeft(2))<abs(Rows*xLeft(3)))
@@ -27,5 +27,5 @@ if(sign(xDown(1))*sign(xDown(3))>0 && abs(xDown(1))<abs(Cols*xDown(3)))
 end
 P
 hold on
-h=plot(P(1,:),P(2,:));
+h=plot(P(1,:),P(2,:),'r');
 hold off

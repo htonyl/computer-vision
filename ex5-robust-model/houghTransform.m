@@ -12,8 +12,9 @@ subplot(2,3,5), imshow(edge(I, 'log')), title('log');
 subplot(2,3,6), imshow(edge(I, 'Canny')), title('Canny');
 
 % Q2 Compute Hough space
-
-BW = edge(I);
+close all;
+method = 'Canny';
+BW = edge(I, method);
 [H,T,R] = hough(BW);
 % T = theta, angle of normal vector
 % R = rho, length of normal vector
@@ -22,10 +23,10 @@ BW = edge(I);
 % Q3 Display Hough space
 
 figure();
-subplot(3,2,1);
+subplot(2,2,1);
 imshow(im);
 title(filename);
-subplot(3,2,3);
+subplot(2,2,3);
 imshow(imadjust(mat2gray(H)),'XData',T,'YData',R,...
       'InitialMagnification','fit');
 title('Hough space');
@@ -36,7 +37,7 @@ axis on, axis normal, hold on;
 
 H2 = H / max(H(:));
 H2 = H2.^.5;
-subplot(3,2,5);
+subplot(2,2,4);
 imshow(imadjust(mat2gray(H2)),'XData',T,'YData',R,...
       'InitialMagnification','fit');
 title('Hough space (normalized & elem-wise squared rooted)');
@@ -46,19 +47,29 @@ axis on, axis normal, hold on;
 % Q5-6 Extract peaks from Hough space
 
 P = houghpeaks(H,6);
-subplot(3,2,3);
+subplot(2,2,3);
 plot(T(P(:,2)),R(P(:,1)),'s','color','red', 'LineWidth', 2);
-
-P2 = houghpeaks(H2,6);
-subplot(3,2,5);
-plot(T(P2(:,2)),R(P2(:,1)),'s','color','red', 'LineWidth', 2);
+subplot(2,2,4);
+plot(T(P(:,2)),R(P(:,1)),'s','color','red', 'LineWidth', 2);
 
 % Q7 Annotate extracted lines on original image
 
-subplot(3,2,4), imshow(im), title('Line detection');
+subplot(2,2,2), imshow(im), title('Line detection');
 axis on, axis normal, hold on;
-for i = 2:length(P)
-  DrawImageLine(cos(P(i,2)), sin(P(i,2)), [0.0; 0.0; P(i,1)])
+PI = 3.141596;
+for i = 1:length(P)
+  rho = R(P(i,1));
+  theta = T(P(i,2))/180*PI;
+  DrawLine([cos(theta); sin(theta); -rho], 'y');
 end
+suptitle(sprintf('Peaks in Houge space (%s)', method));
+figure;
+for i = 1:length(P)
+  subplot(2,3,i), imagesc(im), title(sprintf('Peak %d (Intensity: %.3f)', i, H(P(i,1),P(i,2))));
+  rho = R(P(i,1));
+  theta = T(P(i,2))/180*PI;
+  DrawLine([cos(theta); sin(theta); -rho], 'y');
+end
+suptitle(sprintf('Line intensity of each peak (%s)', method));
 
 % Q8 Compare edge detection algos' effect on Hough trans
