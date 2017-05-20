@@ -1,4 +1,4 @@
-N = 100;
+N = 10;
 K = 30;
 
 if ~exist('Images') Images = []; end;
