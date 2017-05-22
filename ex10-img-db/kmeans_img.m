@@ -20,7 +20,7 @@ if size(SIFTdescr,2) ~= N
 end
 
 %% Isolate test img
-q_idx = 8;
+q_idx = 1;
 q_sift = SIFTdescr{q_idx};
 d_range = [1:(q_idx-1) (q_idx+1):size(SIFTdescr, 2)];
 
@@ -34,9 +34,9 @@ end
 % mincenter[n_sift_feat, 1] = centers each sift feat. belongs to
 % mindist[n_sift_feat, 1] = distance between data and it's center
 disp('Calculate K means clusters...')
-[centers,mincenter,mindist,q2,quality] = kmeans(descriptors, K, 0);
-h = histogram(mincenter, K);
-bins = h.Values;
+% [centers,mincenter,mindist,q2,quality] = kmeans(descriptors, K, 0);
+% h = histogram(mincenter, K);
+% bins = h.Values;
 
 disp('Matching query image...')
 m_score = intmax;
@@ -52,7 +52,7 @@ end
 figure;
 subplot(1,2,1), imagesc(Images{q_idx}), title(sprintf('Query Image [ukbench%05d.jpg]', q_idx));
 subplot(1,2,2), imagesc(Images{m_idx}), title(sprintf('Match [ukbench%05d.jpg]', m_idx));
-suptitle(sprintf('Distance score %f', m_score), 'VerticalAlignment', 'bottom');
+suptitle(sprintf('Distance score %f', m_score));
 
 function b = imgDescrBin(query, centers)
   d = [];
