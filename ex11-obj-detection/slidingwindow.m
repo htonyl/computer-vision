@@ -8,11 +8,11 @@ clear all; close all; clc;
 % Settings:
 cellSize = 8;    %hog cell size (8)
 scalesize = 0.07; %scale of input image
-im_q = imread('data/dturoad1.jpg'); %Query Image
+im_q = imread('data/dturoad2.jpg'); %Query Image
 im_q = imresize(im_q,scalesize);
 
 % Read Object Image:
-im_obj = imread('data/sign1_64.jpg');
+im_obj = imread('data/sign2_64.jpg');
 
 
 % Calculate HOG on Object- and Query-Image:

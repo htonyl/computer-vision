@@ -29,7 +29,6 @@ ylim = size(im,1) - wsize(1) + 1;
 xlim = size(im,2) - wsize(2) + 1;
 
 S = [];
-channel = 1; % Hue gives highest variance
 for row = 1:stepy:ylim
   for col = 1:stepx:xlim
     % Display in RGB
@@ -52,8 +51,10 @@ end
 % Draw Rectangles
 [s,idx] = sort(S(:,3));
 figure; imagesc(im); hold on;
-for i = 1:10
+for i = fliplr(1:10)
   x = S(idx(i),:); % [col row d]
   rectangle('Position',[x(1) x(2) wsize(1) wsize(2)],...
-    'EdgeColor',[1/i, .3, .3],'LineWidth',3);
+    'EdgeColor',[1/i, .3+.5*1/i, .3],'LineWidth',2);
 end
+title(sprintf('Detected window (yellow) using HOG features / Variance = %.5f\n',...
+  var(S(:,3))));
