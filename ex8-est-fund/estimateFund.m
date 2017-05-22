@@ -37,20 +37,22 @@ end
 Fest = Fs{argm};
 Ftrue = getFtrue();
 a = Ftrue(:); b = Fest(:);
-a'*b/(norm(a)*norm(b))
+fprintf('Cosine similarity of true F and estimated F = %.5f\n', a'*b/(norm(a)*norm(b)));
 
 %% Refine F Estimate
 inlmatch = [];
 inrmatch = [];
 for cM=1:nMatch
-  if FSampDist(F,lmatch(:,cM),rmatch(:,cM))<3.84*3^2
+  if FSampDist(Fest,lmatch(:,cM),rmatch(:,cM))<3.84*3^2
     inlmatch = [inlmatch lmatch(:,cM)];
     inrmatch = [inrmatch rmatch(:,cM)];
   end
 end
+Fest = Fest_8point(inlmatch, inrmatch); b = Fest(:);
 figure;
 showMatchedFeatures(im1,im2,inlmatch', inrmatch', 'montage');
-title('Correspondence estimated w/ robust F estimate');
+title(sprintf('Correspondence estimated w/ robust F estimate (# inlier = %d/ Cosine Sim = %.5f)',...
+ length(inlmatch), a'*b/(norm(a)*norm(b))));
 
 function F = getFtrue()
   % Code from ex2
